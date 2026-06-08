@@ -2,10 +2,17 @@
 const NUMBER_OF_COLUMNS = 4;
 const NUMBER_OF_ROWS = 4;
 const inputArea = document.querySelector(".inputArea");
+const displayArea = document.querySelector(".display h2");
 
 // Catch all events inside the input area
 inputArea.addEventListener("click", (e) => {
-
+    let text = e.target.querySelector("h2") ? 
+                e.target.querySelector("h2").textContent:
+                e.target.textContent;
+    if (text === "CLR")
+        displayArea.textContent = "";
+    else
+        displayArea.append(text);
 })
 
 // Dynamically create the 4x4 button grid with flex layout and styling
@@ -86,7 +93,7 @@ function divide(first, second) {
 }
 
 function clear() {
-    
+
 }
 
 function operate(first, second, operator) {
