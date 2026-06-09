@@ -1,0 +1,30 @@
+Initialize the the 5 variables to null
+let operator
+let firstOP
+let secondOP
+let currentInput
+let opCounter
+
+Get input from a click
+Display the input if it's not a second operator
+Append the input to currentInput
+if the input is an operator:
+    append the operator to the display
+    convert and store the operator in variable:operator
+    firstOP = currentInput
+    currentInput = ""
+    increase opCounter
+    wait for more data
+if the input is a second operator:
+    we know this because opCounter === 1
+    convert and store currentInput to secondOP
+    clear currentInput
+    call operator function and store results in result or- 
+    -dynamically assign to firstOP
+    clear display
+    append firstOP to Display
+    append current operator to display
+
+
+
+

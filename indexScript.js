@@ -1,21 +1,65 @@
 // Grid dimensions for the calculator layout
-const NUMBER_OF_COLUMNS = 4;
-const NUMBER_OF_ROWS = 4;
 const inputArea = document.querySelector(".inputArea");
 const displayArea = document.querySelector(".display h2");
+const equalsButton = document.querySelector(".equals");
 
 // Catch all events inside the input area
+let operator;
+let firstOperand = null;
+let secondOperand = null;
+let currentInput = "";
+let opCounter = 0;
+
 inputArea.addEventListener("click", (e) => {
     let text = e.target.querySelector("h2") ? 
                 e.target.querySelector("h2").textContent:
                 e.target.textContent;
+
+    if (text === "+" || text === "-" || text === "*" || text === "/") {
+        if (opcount === 1) {
+            secondOperand = Number(currentInput);
+            currentInput = "";
+            firstOperand = operate(firstOperand, secondOperand, text);
+            displayArea.textContent = `${firstOperand}${text}`;
+        }else{
+            displayArea.append(text);
+            firstOperand = Number(currentInput);
+            currentInput = "";
+            opCounter++;
+        }
+    }else{
+        displayArea.append(text);
+        currentInput += text;
+    }
+    
+        
+    
+    
+    
+    
+    
+    
     if (text === "CLR")
         displayArea.textContent = "";
+    else if (text === "+" || text === "-" || text === "*" || text === "/") {
+        tempText = displayArea.textContent
+    }
     else
         displayArea.append(text);
 })
 
+// Fires when you click the equals button
+equalsButton.addEventListener("click", (e) => {
+    let capturedData = displayArea.textContent;
+    let operator = 
+    
+    uredData).   
+    let result = operate() 
+})
+
 // Dynamically create the 4x4 button grid with flex layout and styling
+const NUMBER_OF_COLUMNS = 4;
+const NUMBER_OF_ROWS = 4;
 function createButtonGrid(){
     for (let row = 0; row < NUMBER_OF_ROWS; row++) {
         const btnRow = document.createElement("div");
