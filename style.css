@@ -2,10 +2,40 @@
     box-sizing: border-box;
 }
 
+body {
+    padding: 0;
+    margin: 0;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("./fonts/Nunito/static/Nunito-Black.ttf") format("truetype");
+    font-style: normal;
+    font-weight:100 900;
+    /*font-display: optional;*/
+}
+
+.heading_block {
+    height: 75px;
+    background-color: rgb(255, 0, 55);
+    border-bottom: 10px solid rgb(217, 255, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+}
+
+.heading {
+    font-family: Nunito, Calibri, Arial;
+    font-size: 55px;
+    color: white;
+    font-weight: 900;
+}
+
 .calcContainer {
     width: 400px;
     height: 500px;
-    margin: 60px auto;
+    margin: 15px auto;
     border: 5px solid black;
     border-radius: 5px;
     background-color: #e9e9e9;
@@ -21,8 +51,10 @@
     border-radius: 5px;
     background-color: white;
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
     border-radius: 5px;
-    padding: 3px
+    padding: 3px;
 }
 
 .inputArea {
@@ -33,6 +65,11 @@
     border-radius: 5px;
     margin-top:15px;
     padding: 3px
+}
+
+.data {
+    margin: 0px;
+    padding: 0px;
 }
 
 .equals {

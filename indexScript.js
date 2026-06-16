@@ -16,46 +16,37 @@ inputArea.addEventListener("click", (e) => {
                 e.target.textContent;
 
     if (text === "+" || text === "-" || text === "*" || text === "/") {
-        if (opcount === 1) {
+        if (opCounter === 1) {
             secondOperand = Number(currentInput);
             currentInput = "";
-            firstOperand = operate(firstOperand, secondOperand, text);
+            firstOperand = operate(firstOperand, secondOperand, operator);
             displayArea.textContent = `${firstOperand}${text}`;
+            operator = text;
         }else{
             displayArea.append(text);
             firstOperand = Number(currentInput);
             currentInput = "";
+            operator = text;
             opCounter++;
         }
+    }else if (text === "CLR") {
+        displayArea.textContent = "";
+        currentInput = "";
+        opCounter = 0;
     }else{
         displayArea.append(text);
         currentInput += text;
     }
-    
-        
-    
-    
-    
-    
-    
-    
-    if (text === "CLR")
-        displayArea.textContent = "";
-    else if (text === "+" || text === "-" || text === "*" || text === "/") {
-        tempText = displayArea.textContent
-    }
-    else
-        displayArea.append(text);
 })
 
-// Fires when you click the equals button
+/*// Fires when you click the equals button
 equalsButton.addEventListener("click", (e) => {
     let capturedData = displayArea.textContent;
     let operator = 
     
     uredData).   
     let result = operate() 
-})
+})*/
 
 // Dynamically create the 4x4 button grid with flex layout and styling
 const NUMBER_OF_COLUMNS = 4;
@@ -99,7 +90,7 @@ function labelTheButtons(listOfButtons) {
     const labels = [
                     ["7", "8", "9", "+"],
                     ["4", "5", "6", "-"],
-                    ["1", "2", "3", "x"],
+                    ["1", "2", "3", "*"],
                     ["CLR", "0", ".", "/"]
                 ];
     
