@@ -71,7 +71,7 @@ function createButtonGrid(){
             button.style.width = `${parseInt(cleanedParentWidth[0], 10) / 4}%`;
             button.style.height = "55px";
             button.style.margin = "5px";
-            button.style.backgroundColor = "#c0c0c0";
+            button.style.backgroundColor = "rgb(217, 255, 0)";
             button.style.display = "flex";
             button.style.alignItems = "center";
             button.style.justifyContent = "center";
@@ -101,11 +101,17 @@ function labelTheButtons(listOfButtons) {
         for (let j = 0; j < btnList.length; j++) {
             let btnLabel = document.createElement("h2");
             btnLabel.textContent = `${labels[i][j]}`;
+            btnLabel.style.color = "rgb(11, 0, 61)";
+            btnLabel.style.fontFamily = "Nunito";
+            btnLabel.style.fonteight = "400";
 
             // Style operator labels with white text for visibility on black background
-            if (j === btnList.length - 1)
-                btnLabel.style.color = "white";
+            if (j === btnList.length - 1){
+                btnLabel.style.color = "rgb(217, 255, 0)";
+                btnList[j].style.backgroundColor = "rgb(11, 0, 61)";
 
+            }
+                
             btnList[j].append(btnLabel);
         }
     }
