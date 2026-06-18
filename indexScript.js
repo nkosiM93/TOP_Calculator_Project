@@ -10,6 +10,7 @@ let secondOperand = null;
 let currentInput = "";
 let opCounter = 0;
 
+//Fires when any of the buttons are clicked
 inputArea.addEventListener("click", (e) => {
     let text = e.target.querySelector("h2") ? 
                 e.target.querySelector("h2").textContent:
@@ -69,17 +70,16 @@ function createButtonGrid(){
                                         .width.split("%");
 
             button.style.width = `${parseInt(cleanedParentWidth[0], 10) / 4}%`;
-            button.style.height = "55px";
+            /*button.style.height = "55px";
             button.style.margin = "5px";
             button.style.backgroundColor = "rgb(217, 255, 0)";
             button.style.display = "flex";
             button.style.alignItems = "center";
-            button.style.justifyContent = "center";
+            button.style.justifyContent = "center";*/
             
             // Style operator buttons (rightmost column) with circular shape and black background
             if (btnBlock === NUMBER_OF_COLUMNS - 1) {
                 button.style.borderRadius = "50%";
-                button.style.backgroundColor = "black";
             }
         } 
     }

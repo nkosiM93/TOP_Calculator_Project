@@ -32,6 +32,15 @@ body {
     font-weight: 900;
 }
 
+.main_Container {
+    height: 100vh;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    background: linear-gradient(rgb(255, 255, 255, 0.8), rgba(189, 255, 252, 0.8)),
+                url(images/Maths.jpg) center/cover no-repeat;
+}
+
 .calcContainer {
     width: 400px;
     height: 500px;
@@ -55,7 +64,23 @@ body {
     align-items: center;
     border-radius: 5px;
     padding: 3px;
+    overflow: auto;
 }
+
+.inputButton {
+    /*background-color:rgb(241, 255, 162);*/
+    height:55px;
+    margin: 5px;
+    background-color: rgb(217, 255, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputButton:hover {
+    background-color: rgb(237, 255, 134);
+}
+
 
 .inputArea {
     width: 100%;
@@ -65,7 +90,6 @@ body {
     border-radius: 5px;
     margin-top:15px;
     padding: 3px;
-    
 }
 
 .data {
