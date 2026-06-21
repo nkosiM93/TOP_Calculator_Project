@@ -22,33 +22,43 @@ inputArea.addEventListener("click", (e) => {
             currentInput = "";
             firstOperand = operate(firstOperand, secondOperand, operator);
             displayArea.textContent = `${firstOperand}${text}`;
+            secondOperand = null;
             operator = text;
         }else{
-            displayArea.append(text);
-            firstOperand = Number(currentInput);
-            currentInput = "";
-            operator = text;
-            opCounter++;
+            if (displayArea.textContent === "")
+                displayArea.append("");
+            else {
+                displayArea.append(text);
+                firstOperand = Number(currentInput);
+                currentInput = "";
+                operator = text;
+                opCounter++;
+            }
         }
     }else if (text === "CLR") {
         displayArea.textContent = "";
         currentInput = "";
         opCounter = 0;
+        firstOperand = null;
+        secondOperand = null;
     }else{
         displayArea.append(text);
         currentInput += text;
     }
 })
 
-/*// Fires when you click the equals button
 equalsButton.addEventListener("click", (e) => {
-    let capturedData = displayArea.textContent;
-    let operator = 
-    
-    uredData).   
-    let result = operate() 
-})*/
-
+    if (!secondOperand && !firstOperand){
+        displayArea.textContent = ""; 
+    }else if (!secondOperand && firstOperand) {
+        secondOperand = Number(currentInput);
+        displayArea.textContent = "";
+        displayArea.append(`${operate(firstOperand, secondOperand, operator)}`);
+    }else{
+        displayArea.textContent = "";
+        displayArea.append(`${operate(firstOperand, secondOperand, operator)}`);
+    }
+})
 // Dynamically create the 4x4 button grid with flex layout and styling
 const NUMBER_OF_COLUMNS = 4;
 const NUMBER_OF_ROWS = 4;
@@ -70,12 +80,6 @@ function createButtonGrid(){
                                         .width.split("%");
 
             button.style.width = `${parseInt(cleanedParentWidth[0], 10) / 4}%`;
-            /*button.style.height = "55px";
-            button.style.margin = "5px";
-            button.style.backgroundColor = "rgb(217, 255, 0)";
-            button.style.display = "flex";
-            button.style.alignItems = "center";
-            button.style.justifyContent = "center";*/
             
             // Style operator buttons (rightmost column) with circular shape and black background
             if (btnBlock === NUMBER_OF_COLUMNS - 1) {
@@ -131,10 +135,6 @@ function multiply(first, second) {
 
 function divide(first, second) {
     return first / second;
-}
-
-function clear() {
-
 }
 
 function operate(first, second, operator) {
