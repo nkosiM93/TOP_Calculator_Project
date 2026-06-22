@@ -4,11 +4,26 @@ const displayArea = document.querySelector(".display h2");
 const equalsButton = document.querySelector(".equals");
 
 // Catch all events inside the input area
-let operator;
+let operator = null;
 let firstOperand = null;
 let secondOperand = null;
 let currentInput = "";
 let opCounter = 0;
+let equalsFlag = false;
+
+function appendToCurrentInput(text) {
+    if (text === ".") {
+        if (currentInput.includes('.')) return;
+        if (currentInput === "") {
+            displayArea.append("0.");
+            currentInput = "0.";
+            return;
+        }
+    }
+
+    currentInput += text;
+    displayArea.append(text);
+}
 
 //Fires when any of the buttons are clicked
 inputArea.addEventListener("click", (e) => {
@@ -17,17 +32,30 @@ inputArea.addEventListener("click", (e) => {
                 e.target.textContent;
 
     if (text === "+" || text === "-" || text === "*" || text === "/") {
+        
+        // Clear this flag to avoid clearing of the screen
+        equalsFlag = false;
+
         if (opCounter === 1) {
             secondOperand = Number(currentInput);
             currentInput = "";
-            firstOperand = operate(firstOperand, secondOperand, operator);
-            displayArea.textContent = `${firstOperand}${text}`;
-            secondOperand = null;
-            operator = text;
+            const result = operate(firstOperand, secondOperand, operator);
+            if (result === "Error") {
+                displayArea.textContent = "Error";
+                currentInput = "";
+                equalsFlag = true;
+                reset();
+            } else {
+                firstOperand = Number(result);
+                const formatted = formatResult(result);
+                displayArea.textContent = `${formatted}${text}`;
+                secondOperand = null;
+                operator = text;
+            }
         }else{
-            if (displayArea.textContent === "")
-                displayArea.append("");
-            else {
+            if (displayArea.textContent === "") {
+
+            } else {
                 displayArea.append(text);
                 firstOperand = Number(currentInput);
                 currentInput = "";
@@ -38,27 +66,99 @@ inputArea.addEventListener("click", (e) => {
     }else if (text === "CLR") {
         displayArea.textContent = "";
         currentInput = "";
-        opCounter = 0;
-        firstOperand = null;
-        secondOperand = null;
+        reset();
     }else{
+        if (equalsFlag) {
+            displayArea.textContent = "";
+            equalsFlag = false;
+            currentInput = "";
+        }
+        // Handle decimal input: prevent multiple decimals and allow leading 0.
+        if (text === ".") {
+            if (currentInput.includes('.')) return;
+            if (currentInput === "") {
+                displayArea.append("0.");
+                currentInput = "0.";
+                return;
+            }
+        }
         displayArea.append(text);
         currentInput += text;
     }
-})
+});
+
+function reset () {
+    opCounter = 0;
+    firstOperand = null;
+    secondOperand = null;
+    operator = null;
+}
+
+// Format numeric results for display: limit precision and trim trailing zeros
+function formatResult(value) {
+    if (value === "Error") return "Error";
+    if (typeof value !== 'number') return String(value);
+    if (!Number.isFinite(value)) return "Error";
+    if (Number.isInteger(value)) return value.toString();
+    // Limit to 10 decimal places, then remove trailing zeros
+    return parseFloat(value.toFixed(10)).toString();
+}
 
 equalsButton.addEventListener("click", (e) => {
-    if (!secondOperand && !firstOperand){
-        displayArea.textContent = ""; 
-    }else if (!secondOperand && firstOperand) {
+    // Use explicit null checks so numeric 0 is handled correctly
+    if (firstOperand === null && secondOperand === null) {
+        displayArea.textContent = "";
+        return;
+    }
+
+    // If an operator was entered but the user didn't type a second operand,
+    // treat "=" as returning the first operand (e.g. `1+` then `=` => `1`).
+    if (firstOperand !== null && operator !== null 
+        && (currentInput === "" || currentInput == null)) {
+        const formatted = formatResult(firstOperand);
+        displayArea.textContent = formatted;
+        currentInput = `${formatted}`;
+        equalsFlag = true;
+        reset();
+        return;
+    }
+    if (secondOperand === null && firstOperand !== null) {
         secondOperand = Number(currentInput);
         displayArea.textContent = "";
-        displayArea.append(`${operate(firstOperand, secondOperand, operator)}`);
-    }else{
-        displayArea.textContent = "";
-        displayArea.append(`${operate(firstOperand, secondOperand, operator)}`);
+        const result = operate(firstOperand, secondOperand, operator);
+        if (result === "Error") {
+            displayArea.textContent = "Error";
+            currentInput = "";
+            equalsFlag = true;
+            reset();
+            return;
+        }
+        const formatted = formatResult(result);
+        currentInput = `${formatted}`;
+        displayArea.append(currentInput);
+        equalsFlag = true;
+        reset();
+        return;
     }
-})
+
+    if (firstOperand !== null && secondOperand !== null) {
+        displayArea.textContent = "";
+        const result = operate(firstOperand, secondOperand, operator);
+        if (result === "Error") {
+            displayArea.textContent = "Error";
+            currentInput = "";
+            equalsFlag = true;
+            reset();
+            return;
+        }
+        const formatted = formatResult(result);
+        currentInput = `${formatted}`;
+        displayArea.append(currentInput);
+        equalsFlag = true;
+        reset();
+        return;
+    }
+});
 // Dynamically create the 4x4 button grid with flex layout and styling
 const NUMBER_OF_COLUMNS = 4;
 const NUMBER_OF_ROWS = 4;
@@ -107,7 +207,7 @@ function labelTheButtons(listOfButtons) {
             btnLabel.textContent = `${labels[i][j]}`;
             btnLabel.style.color = "rgb(11, 0, 61)";
             btnLabel.style.fontFamily = "Nunito";
-            btnLabel.style.fonteight = "400";
+            btnLabel.style.fontWeight = "400";
 
             // Style operator labels with white text for visibility on black background
             if (j === btnList.length - 1){
@@ -134,6 +234,7 @@ function multiply(first, second) {
 }
 
 function divide(first, second) {
+    if (second === 0) return "Error";
     return first / second;
 }
 
